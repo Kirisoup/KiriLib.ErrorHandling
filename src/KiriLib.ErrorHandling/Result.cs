@@ -12,7 +12,6 @@ public readonly partial struct Result<T, E> : IEquatable<Result<T, E>>
 	public Result() => throw new InvalidVariantException();
 
 	public static Result<T, E> Ok(T value) => new(value, default, Variant.Ok);
-
 	public static Result<T, E> Ex(E error) => new(default, error, Variant.Ex);
 
 	public static implicit operator Result<T, E>(OkVariant<T> variant) => Ok(variant.Value);
