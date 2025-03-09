@@ -44,6 +44,9 @@ public readonly partial struct Result<T, E> : IEquatable<Result<T, E>>
 
 public static partial class Result
 {
+	public static OkVariant<unit> Ok() => new(new unit());
+	public static ExVariant<unit> Ex() => new(new unit());
+
 	public static OkVariant<T> Ok<T>(T value) => new(value);
 	public static ExVariant<E> Ex<E>(E error) => new(error);
 

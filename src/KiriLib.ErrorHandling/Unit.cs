@@ -1,8 +1,10 @@
 namespace KiriLib.ErrorHandling;
 
-public readonly record struct Unit : IEquatable<Unit> 
+#pragma warning disable IDE1006 // Naming Styles
+
+public readonly record struct unit : IEquatable<unit>
 {
 	public override int GetHashCode() => 0;
-	public bool Equals(Unit other) => true;
+	public bool Equals(unit other) => true;
 	public override string ToString() => "()";
 }
