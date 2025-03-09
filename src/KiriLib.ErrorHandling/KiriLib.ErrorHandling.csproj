@@ -10,8 +10,7 @@
 
 		<TargetFramework>net48</TargetFramework>
 
-	    <OutputPath Condition="'$(Configuration)' == 'Release'" >$(SolutionDir)pack/</OutputPath>
-		<PackageOutputPath>$(SolutionDir)pack/$(TargetFramework)</PackageOutputPath>
+		<PackageOutputPath>..\..\pkg/</PackageOutputPath>
 
 		<LangVersion>preview</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
