@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 namespace KiriLib.ErrorHandling;
 
 using Variant = Result.Variant;
-using InvalidVariantException = Result.InvalidVariantException;
 
 public partial struct Result<T, E>
 {
@@ -32,8 +31,7 @@ public partial struct Result<T, E>
 	) {
 		(value, error) = Variant switch {
 			Variant.Ok => (_value, default(E)),
-			Variant.Ex => (default(T), _error),
-			_ => throw new InvalidVariantException()
+			Variant.Ex => (default(T), _error)
 		};
 		return Variant is Variant.Ok;
 	}

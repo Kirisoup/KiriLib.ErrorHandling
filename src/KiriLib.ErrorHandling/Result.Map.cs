@@ -1,7 +1,6 @@
 namespace KiriLib.ErrorHandling;
 
 using Variant = Result.Variant;
-using InvalidVariantException = Result.InvalidVariantException;
 
 public partial struct Result<T, E>
 {
@@ -12,8 +11,7 @@ public partial struct Result<T, E>
 	
 	public Result<U, E> MapResult<U>(Func<T, U> Ok) => Variant switch {
 		Variant.Ok => Result.Ok(Ok.Invoke(_value!)),
-		Variant.Ex => Result.Ex(_error!),
-		_ => throw new InvalidVariantException()
+		Variant.Ex => Result.Ex(_error!)
 	};
 
 	/// <summary>
@@ -23,8 +21,7 @@ public partial struct Result<T, E>
 	
 	public Result<T, F> MapResult<F>(Func<E, F> Ex) => Variant switch {
 		Variant.Ok => Result.Ok(_value!),
-		Variant.Ex => Result.Ex(Ex.Invoke(_error!)),
-		_ => throw new InvalidVariantException()
+		Variant.Ex => Result.Ex(Ex.Invoke(_error!))
 	};
 
 	/// <summary>
@@ -43,8 +40,7 @@ public partial struct Result<T, E>
 	
 	public U MapResult<U>(Func<T, U> Ok, Func<E, U> OrElse) => Variant switch {
 		Variant.Ok => Ok.Invoke(_value!),
-		Variant.Ex => OrElse.Invoke(_error!),
-		_ => throw new InvalidVariantException()
+		Variant.Ex => OrElse.Invoke(_error!)
 	};
 
 	/// <summary>
@@ -55,8 +51,7 @@ public partial struct Result<T, E>
 
 	public Result<U, E> MapResult<U>(Func<T, Result<U, E>> AndThen) => Variant switch {
 		Variant.Ok => AndThen.Invoke(_value!),
-		Variant.Ex => Result.Ex(_error!),
-		_ => throw new InvalidVariantException()
+		Variant.Ex => Result.Ex(_error!)
 	};
 
 	/// <summary>
@@ -67,8 +62,7 @@ public partial struct Result<T, E>
 
 	public Result<T, F> MapResult<F>(Func<E, Result<T, F>> OrElse) => Variant switch {
 		Variant.Ok => Result.Ok(_value!),
-		Variant.Ex => OrElse.Invoke(_error!),
-		_ => throw new InvalidVariantException()
+		Variant.Ex => OrElse.Invoke(_error!)
 	};
 
 	/// <summary>

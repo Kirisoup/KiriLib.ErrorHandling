@@ -1,7 +1,6 @@
 namespace KiriLib.ErrorHandling;
 
 using Variant = Result.Variant;
-using InvalidVariantException = Result.InvalidVariantException;
 
 public readonly partial struct Result<T, E>
 {
@@ -10,8 +9,7 @@ public readonly partial struct Result<T, E>
 		(Variant, other.Variant) switch {
 			(Variant.Ok, Variant.Ok) => Result.Ok((_value!, other._value!)),
 			(Variant.Ex, _) => Result.Ex(_error!),
-			(_, Variant.Ex) => Result.Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Result.Ex(other._error!)
 		};
 }
 
@@ -26,8 +24,7 @@ public static partial class Result
 				source._value.Item2,
 				other._value!)),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 
 	public static Result<(T, U, V, W), E> Combine<T, U, V, W, E>(
@@ -40,8 +37,7 @@ public static partial class Result
 				source._value.Item3,
 				other._value!)),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 
 	public static Result<(T, U, V, W, X), E> Combine<T, U, V, W, X, E>(
@@ -55,8 +51,7 @@ public static partial class Result
 				source._value.Item4,
 				other._value!)),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 
 	public static Result<(T, U, V, W, X, Y), E> Combine<T, U, V, W, X, Y, E>(
@@ -71,8 +66,7 @@ public static partial class Result
 				source._value.Item5,
 				other._value!)),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 
 	public static Result<(T, U, V, W, X, Y, Z), E> Combine<T, U, V, W, X, Y, Z, E>(
@@ -88,8 +82,7 @@ public static partial class Result
 				source._value.Item6,
 				other._value!)),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 
 	public static Result<(T1, T2, T3, T4, T5, T6, T7, T8), E> 
@@ -107,8 +100,7 @@ public static partial class Result
 				source._value.Item7,
 				other._value!)),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 
 	public static Result<(T1, T2, T3, T4, T5, T6, T7, T8, T9), E> 
@@ -127,8 +119,7 @@ public static partial class Result
 				source._value.Item8,
 				other._value!)),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 
 	public static Result<(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10), E> 
@@ -148,8 +139,7 @@ public static partial class Result
 				source._value.Item9,
 				other._value!)),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 
 	public static Result<(T1, T2, T3, T4, T5, T6, T7, T8, T9, (T10, T11)), E> 
@@ -169,7 +159,6 @@ public static partial class Result
 				source._value.Item9,
 				(source._value.Item10, other._value!))),
 			(Variant.Ex, _) => Ex(source._error!),
-			(_, Variant.Ex) => Ex(other._error!),
-			_ => throw new InvalidVariantException()
+			(_, Variant.Ex) => Ex(other._error!)
 		};
 }

@@ -3,7 +3,6 @@ using System.Diagnostics;
 namespace KiriLib.ErrorHandling;
 
 using Variant = Result.Variant;
-using InvalidVariantException = Result.InvalidVariantException;
 
 public partial struct Result<T, E>
 {

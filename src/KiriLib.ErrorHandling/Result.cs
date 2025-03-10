@@ -5,7 +5,7 @@ using static Result;
 public readonly partial struct Result<T, E> : IEquatable<Result<T, E>>
 {
 	private Result(T? value, E? error, Variant variant) => 
-		(_value, _error, Variant) = (value, error, variant);
+		(_value, _error, _variant) = (value, error, variant);
 
 	[Obsolete($"You should avoid using the default constructor.",
 		error: true)]
@@ -19,26 +19,26 @@ public readonly partial struct Result<T, E> : IEquatable<Result<T, E>>
 
 	internal readonly T? _value;
 	internal readonly E? _error;
-
-	public Variant Variant { get; }
-
+	private readonly Variant _variant;
+	
+	public Variant Variant => (_variant is Variant.Ok or Variant.Ex)
+		? _variant
+		: throw new InvalidVariantException();
+	
 	public override string ToString() => Variant switch {
 		Variant.Ok => $"{nameof(Result)}.{nameof(Variant.Ok)}({_value})",
-		Variant.Ex => $"{nameof(Result)}.{nameof(Variant.Ex)}({_error})",
-		_ => $"{nameof(Result)}.!InvalidVariant"
+		Variant.Ex => $"{nameof(Result)}.{nameof(Variant.Ex)}({_error})"
 	};
 
 	public override int GetHashCode() => Variant switch {
 		Variant.Ok => (Variant.Ok, _value).GetHashCode(),
-		Variant.Ex => (Variant.Ex, _error).GetHashCode(),
-		_ => 0
+		Variant.Ex => (Variant.Ex, _error).GetHashCode()
 	};
 
 	public override bool Equals(object obj) => obj is Result<T, E> other && Equals(other);
 	public bool Equals(Result<T, E> other) => Variant switch {
 		Variant.Ok => other.Variant is Variant.Ok && _value!.Equals(other._value!),
-		Variant.Ex => other.Variant is Variant.Ex && _error!.Equals(other._error!),
-		_ => false
+		Variant.Ex => other.Variant is Variant.Ex && _error!.Equals(other._error!)
 	};
 }
 
@@ -60,26 +60,28 @@ public static partial class Result
 
 	public readonly record struct OkVariant<T> 
 	{
-		public T Value { get; }
-		internal OkVariant(T Value) => this.Value = Value;
+		readonly bool _isValid = false;
+		readonly T _value;
 
-		[Obsolete(
-			$"You should avoid using the default constructor. " + 
-			$"Please use the factory method {nameof(Result)}.{nameof(Ok)}<{nameof(T)}>({nameof(T)}).", 
-			error: true)]
-		public OkVariant() => throw new InvalidVariantException();
+		public T Value => _isValid ? _value : throw new InvalidVariantException();
+
+		internal OkVariant(T Value) {
+			_isValid = true;
+			_value = Value;
+		}
 	}
 
 	public readonly record struct ExVariant<E>
 	{
-		public E Error { get; }
-		internal ExVariant(E Error) => this.Error = Error;
+		readonly bool _isValid = false;
+		readonly E _error;
 
-		[Obsolete(
-			$"You should avoid using the default constructor. " + 
-			$"Please use the factory method {nameof(Result)}.{nameof(Ex)}<{nameof(E)}>({nameof(E)}).", 
-			error: true)]
-		public ExVariant() => throw new InvalidVariantException();
+		public E Error => _isValid ? _error : throw new InvalidVariantException();
+
+		internal ExVariant(E Error) {
+			_isValid = true;
+			_error = Error;
+		}
 	}
 
 	/// <summary>

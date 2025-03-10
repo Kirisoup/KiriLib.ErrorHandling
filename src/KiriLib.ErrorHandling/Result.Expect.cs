@@ -27,8 +27,7 @@ public partial struct Result<T, E>
 
 	public T Expect(string requirement) => Variant switch { 
 		Variant.Ok => _value!, 
-		Variant.Ex => throw new ExpectationNotMetException(requirement, _error!),
-		_ => throw new InvalidVariantException()
+		Variant.Ex => throw new ExpectationNotMetException(requirement, _error!)
 	};
 
 	/// <summary>
